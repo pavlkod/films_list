@@ -1,13 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MovieList } from "./components/MovieList";
 import { moviesData } from "./db/moviesData";
 
 import "./components/MovieListWillWatch/index.scss";
 import { MovieListWillWatch } from "./components/MovieListWillWatch";
+import { API_KEY_3, API_URL } from "./utils/app";
 
 function App() {
-  const [movies, setMovies] = useState(moviesData);
+  const [movies, setMovies] = useState([]);
   const [moviesWillWatch, setMoviesWillWatch] = useState([]);
+
+  useEffect(() => {
+    console.log("moubt");
+    const fun = async () => {
+      try {
+        const response = await fetch(`${API_URL}/discover/movie?api_key=${API_KEY_3}`);
+        const { results } = await response.json();
+        console.log(results);
+        setMovies(results);
+      } catch (e) {}
+    };
+    fun();
+    // fetch(`${API_URL}/discover/movie?api_key=${API_KEY_3}`);
+  }, []);
 
   const removeItem = data => {
     const filterMovies = movies.filter(movie => movie.id !== data.id);
