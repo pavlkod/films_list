@@ -1,28 +1,27 @@
 import { useEffect, useState } from "react";
 import { MovieList } from "./components/MovieList";
-import { moviesData } from "./db/moviesData";
 
 import "./components/MovieListWillWatch/index.scss";
 import { MovieListWillWatch } from "./components/MovieListWillWatch";
 import { API_KEY_3, API_URL } from "./utils/app";
+import { MovieTabs } from "./components/MovieTabs";
 
 function App() {
   const [movies, setMovies] = useState([]);
   const [moviesWillWatch, setMoviesWillWatch] = useState([]);
+  const [sortBy, setSortBy] = useState("popularity.desc");
 
   useEffect(() => {
-    console.log("moubt");
     const fun = async () => {
       try {
-        const response = await fetch(`${API_URL}/discover/movie?api_key=${API_KEY_3}`);
+        const response = await fetch(`${API_URL}/discover/movie?api_key=${API_KEY_3}&sort_by=${sortBy}`);
         const { results } = await response.json();
         console.log(results);
         setMovies(results);
       } catch (e) {}
     };
     fun();
-    // fetch(`${API_URL}/discover/movie?api_key=${API_KEY_3}`);
-  }, []);
+  }, [sortBy]);
 
   const removeItem = data => {
     const filterMovies = movies.filter(movie => movie.id !== data.id);
@@ -35,10 +34,17 @@ function App() {
 
   const addMovieToWillWatch = movie => setMoviesWillWatch([...moviesWillWatch, movie]);
 
+  const changeSort = value => setSortBy(value);
+
   return (
     <div className="App container mt-5">
       <div className="row">
         <div className="col-9">
+          <div className="row">
+            <div className="col-12 mb-4">
+              <MovieTabs sort_by={sortBy} changeSort={changeSort} />
+            </div>
+          </div>
           <div className="row">
             <MovieList
               data={movies}

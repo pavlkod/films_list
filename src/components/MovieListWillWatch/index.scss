@@ -2,3 +2,6 @@
   position: sticky;
   top: 10px;
 }
+.nav-link:not(.active) {
+  cursor: pointer;
+}
