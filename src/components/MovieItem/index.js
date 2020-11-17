@@ -4,11 +4,13 @@ const MovieItem = ({ data, removeItem, addMovieToWillWatch, removieMovieFromWill
   const [willWatches, setWillWatches] = useState(false);
   return (
     <div className="card">
-      <img
-        className="card-img-top"
-        src={`https:image.tmdb.org/t/p/w500${data.backdrop_path || data.poster_path}`}
-        alt=""
-      />
+      {data.backdrop_path && data.poster_path && (
+        <img
+          className="card-img-top"
+          src={`https:image.tmdb.org/t/p/w500${data.backdrop_path || data.poster_path}`}
+          alt=""
+        />
+      )}
       <div className="card-body">
         <h6 className="card-title">{data.title}</h6>
         <div className="d-flex justify-content-between align-items-center mb-2">

@@ -16,7 +16,7 @@ function App() {
       try {
         const response = await fetch(`${API_URL}/discover/movie?api_key=${API_KEY_3}&sort_by=${sortBy}`);
         const { results } = await response.json();
-        console.log(results);
+
         setMovies(results);
       } catch (e) {}
     };
