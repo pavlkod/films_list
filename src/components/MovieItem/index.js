@@ -14,32 +14,34 @@ const MovieItem = ({ data, removeItem, addMovieToWillWatch, removieMovieFromWill
       <div className="card-body">
         <h6 className="card-title">{data.title}</h6>
         <div className="d-flex justify-content-between align-items-center mb-2">
-          <p className="mb-0">Rating: {data.vote_average}</p>
+          <p className="mb-0">Рейтинг: {data.vote_average}</p>
           {willWatches ? (
             <button
               type="button"
-              className="btn btn-success"
+              className="btn btn-warning"
               onClick={() => {
                 setWillWatches(false);
                 removieMovieFromWillWatch.bind(null, data)();
               }}
             >
-              Remove will Watch
+              Удалить из просмотра
             </button>
           ) : (
             <button
               type="button"
-              className="btn btn-secondary"
+              className="btn btn-success"
               onClick={() => {
                 setWillWatches(true);
                 addMovieToWillWatch.bind(null, data)();
               }}
             >
-              Add will Watch
+              Добавить к просмотру
             </button>
           )}
         </div>
-        <button onClick={removeItem.bind(null, data)}>Delete item</button>
+        <button className="btn btn-danger" onClick={removeItem.bind(null, data)}>
+          Удалить фильм
+        </button>
       </div>
     </div>
   );
