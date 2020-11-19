@@ -2,7 +2,6 @@ import classnames from "classnames";
 import "./index.scss";
 
 const MoviePagination = ({ data: { page, totalPages }, changePage }) => {
-  console.log(page, totalPages);
   const prevPage = page - 1;
   const nextPage = page + 1;
   return (

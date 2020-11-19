@@ -1,17 +1,23 @@
 import { useEffect, useState } from "react";
-import { MovieList } from "./components/MovieList";
 
+import { MovieList } from "./components/MovieList";
 import { MovieListWillWatch } from "./components/MovieListWillWatch";
-import { API_KEY_3, API_URL } from "./utils/app";
 import { MovieTabs } from "./components/MovieTabs";
 import { MoviePagination } from "./components/MoviePagination";
 
+import { useMoviesWillWatch } from "./hooks/useMoviesWillWatch";
+import { usePagination } from "./hooks/usePagination";
+
+import { API_KEY_3, API_URL } from "./utils/app";
+import { useChangeSort } from "./hooks/useChangeSort";
+
 function App() {
   const [movies, setMovies] = useState([]);
-  const [moviesWillWatch, setMoviesWillWatch] = useState([]);
-  const [sortBy, setSortBy] = useState("popularity.desc");
-  const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+
+  const { moviesWillWatch, addMovieToWillWatch, removieMovieFromWillWatch } = useMoviesWillWatch();
+  const { page, changePage } = usePagination();
+  const { sortBy, changeSort } = useChangeSort();
 
   useEffect(() => {
     const getMovies = async () => {
@@ -33,20 +39,8 @@ function App() {
   const removeItem = data => {
     const filterMovies = movies.filter(movie => movie.id !== data.id);
     setMovies(filterMovies);
-  };
-  const removieMovieFromWillWatch = data => {
-    const filterMovies = moviesWillWatch.filter(movie => movie.id !== data.id);
-    setMoviesWillWatch(filterMovies);
-  };
 
-  const addMovieToWillWatch = movie => setMoviesWillWatch([...moviesWillWatch, movie]);
-
-  const changeSort = value => setSortBy(value);
-  const changePage = (page, totalPage) => {
-    if (!page || page > totalPage) {
-      return;
-    }
-    setPage(page);
+    removieMovieFromWillWatch(data);
   };
 
   return (
@@ -60,7 +54,7 @@ function App() {
           </div>
           <div className="row">
             <MovieList
-              data={movies}
+              data={{ movies, moviesWillWatch }}
               removeItem={removeItem}
               addMovieToWillWatch={addMovieToWillWatch}
               removieMovieFromWillWatch={removieMovieFromWillWatch}

@@ -1,12 +1,17 @@
 import { MovieItem } from "../MovieItem";
 
-const MovieList = ({ data, removeItem, addMovieToWillWatch, removieMovieFromWillWatch }) => {
+const MovieList = ({
+  data: { movies, moviesWillWatch },
+  removeItem,
+  addMovieToWillWatch,
+  removieMovieFromWillWatch,
+}) => {
   return (
     <>
-      {data.map(movie => (
+      {movies.map(movie => (
         <div className="col-6 mb-4" key={movie.id}>
           <MovieItem
-            data={movie}
+            data={{ movie, moviesWillWatch }}
             removeItem={removeItem}
             addMovieToWillWatch={addMovieToWillWatch}
             removieMovieFromWillWatch={removieMovieFromWillWatch}
